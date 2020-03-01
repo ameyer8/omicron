@@ -21,8 +21,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/ameyer8/omicron/server"
-
+	"github.com/ameyer8/omicron/internal/server"
 	"github.com/spf13/cobra"
 )
 
