@@ -18,6 +18,7 @@ package server
 
 import "github.com/gorilla/mux"
 
+//Server is the base data type for this module
 type Server struct {
 	Router *mux.Router
 	Port   int
@@ -29,10 +30,12 @@ func (s *Server) routes() {
 
 }
 
+//Start server functionality
 func (s *Server) Start() {
 
 }
 
-func (s *Server) TurndownServer() {
+//TurnDownServer preps for shutdown
+func (s *Server) TurnDownServer() {
 
 }
