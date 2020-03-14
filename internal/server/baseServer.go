@@ -22,7 +22,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ameyer8/omicron/external/omega2gpio/onion"
+	onion "github.com/ameyer8/omicron/external/omega2gpio"
+
 	"github.com/gorilla/mux"
 )
 
@@ -33,7 +34,9 @@ type Server struct {
 }
 
 func (s *Server) routes() {
-	s.router.HandleFunc("/healthz", healthHandler())
+	s.router.HandleFunc("/api/v1/healthz", healthHandler())
+
+	gpioRoutes(s.router.PathPrefix("/api/v1/gpio").Subrouter())
 
 	http.Handle("/", s.router)
 }
