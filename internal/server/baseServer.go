@@ -16,23 +16,50 @@ limitations under the License.
 
 package server
 
-import "github.com/gorilla/mux"
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/ameyer8/omicron/external/omega2gpio/onion"
+	"github.com/gorilla/mux"
+)
 
 //Server is the base data type for this module
 type Server struct {
-	Router *mux.Router
+	router *mux.Router
 	Port   int
 }
 
 func (s *Server) routes() {
+	s.router.HandleFunc("/healthz", healthHandler())
 
-	s.Router.Handle("/", s.Router)
+	http.Handle("/", s.router)
+}
 
+func healthHandler() http.HandlerFunc {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+		w.Write([]byte("health"))
+	}
 }
 
 //Start server functionality
 func (s *Server) Start() {
 
+	s.router = mux.NewRouter()
+	s.routes()
+	addr := fmt.Sprintf(":%d", s.Port)
+	srv := &http.Server{
+		Handler:      s.router,
+		Addr:         addr,
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	onion.Setup()
+	log.Fatal(srv.ListenAndServe())
 }
 
 //TurnDownServer preps for shutdown

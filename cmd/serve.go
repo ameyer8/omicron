@@ -59,7 +59,7 @@ func setupCloseHandler(s *server.Server) {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		fmt.Println("\r- Ctrl+C pressed, exiting...")
+		fmt.Println("\r- Exit requested, shutting down")
 		s.TurnDownServer()
 
 		os.Exit(0)
