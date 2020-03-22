@@ -9,3 +9,14 @@ type DirectionReturn struct {
 type ValueReturn struct {
 	Value int `json:"value"`
 }
+
+type StatusReturn struct {
+	Direction string `json:"direction"`
+	Value     int    `json:"value"`
+	Name      string `json:"name"`
+}
+
+type PortName struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}

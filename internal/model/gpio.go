@@ -52,7 +52,10 @@ func SetGPIOValue(portID int, value int) error {
 	}
 	switch value {
 	case 0, 1:
-		onion.Write(portID, uint8(value))
+		// Check current value
+		if v := GetGPIOValue(portID); v != value {
+			onion.Write(portID, uint8(value))
+		}
 	default:
 		err = errors.New("Could not set direction. Direction not recognized")
 	}
@@ -61,7 +64,11 @@ func SetGPIOValue(portID int, value int) error {
 func ToggleGPIOValue(portID int) error {
 
 	var err error
-	SetGPIOValue(portID, ^GetGPIOValue(portID))
+	if v := GetGPIOValue(portID); v == 0 {
+		err = SetGPIOValue(portID, 1)
+	} else {
+		err = SetGPIOValue(portID, 0)
+	}
 
 	return err
 }

@@ -36,7 +36,7 @@ type Server struct {
 func (s *Server) routes() {
 	s.router.HandleFunc("/api/v1/healthz", healthHandler())
 
-	gpioRoutes(s.router.PathPrefix("/api/v1/gpio").Subrouter())
+	s.gpioRoutes(s.router.PathPrefix("/api/v1/gpio").Subrouter())
 
 	http.Handle("/", s.router)
 }
